@@ -1,0 +1,49 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) 2023, Denis Burkov <dburkov05@bk.ru>
+ */
+
+/dts-v1/;
+
+#include "msm8937.dtsi"
+#include <dt-bindings/arm/qcom,ids.h>
+
+/ {
+	model = "Xiaomi Redmi 7A (pine)";
+	compatible = "xiaomi,pine", "qcom,sdm439";
+	chassis-type = "handset";
+
+	qcom,msm-id = <0x353 0x0>;
+
+	chosen {
+		#address-cells = <0x02>;
+		#size-cells = <0x02>;
+		ranges;
+
+		stdout-path = "/chosen/framebuffer@90000000";
+
+		framebuffer0: framebuffer@90000000 {
+			compatible = "simple-framebuffer";
+			reg = <0x0 0x90000000 0x0 (720 * 1440 * 4)>;
+			width = <720>;
+			height = <1440>;
+			stride = <(720 * 4)>;
+			format = "a8r8g8b8";
+		};
+
+		ramoops@0 {
+			compatible = "ramoops";
+			reg = <0x00 0x9ff00000 0x00 0x100000>;
+			record-size = <0x80000>;
+			console-size = <0x80000>;
+			pmsg-size = <0x8000>;
+		};
+	};
+
+	reserved-memory {
+		framebuffer_mem: memory@90001000 {
+			reg = <0x0 0x90000000 0x0 (720 * 1440 * 4)>;
+			no-map;
+		};
+	};
+};
