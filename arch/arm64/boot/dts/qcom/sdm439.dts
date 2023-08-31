@@ -46,7 +46,7 @@
 	};
 
 	reserved-memory {
-		framebuffer_mem: memory@90001000 {
+		framebuffer_mem: memory@90000000 {
 			reg = <0x0 0x90000000 0x0 (720 * 1440 * 4)>;
 			no-map;
 		};
