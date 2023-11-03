@@ -22,9 +22,9 @@
 		#size-cells = <2>;
 		ranges;
 
-		framebuffer0: framebuffer@90000000 {
+		framebuffer0: framebuffer@90001000 {
 			compatible = "simple-framebuffer";
-			reg = <0x0 0x90000000 0x0 (720 * 1440 * 3)>;
+			reg = <0x0 0x90001000 0x0 (720 * 1440 * 3)>;
 			width = <720>;
 			height = <1440>;
 			stride = <(720 * 3)>;
@@ -86,9 +86,9 @@
 			phandle = <0x21>;
 		};
 
-		splash_region@83000000 {
-			phandle = <0x75>;
-			reg = <0x00 0x90000000 0x00 0x1400000>;
+        framebuffer_mem: memory@90001000 {
+			reg = <0x0 0x90001000 0x0 0x2f7600>;
+			no-map;
 		};
 
 		qseecom_region@0 {
