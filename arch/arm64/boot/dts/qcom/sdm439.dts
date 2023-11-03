@@ -6,26 +6,21 @@
 /dts-v1/;
 
 #include "msm8937.dtsi"
-#include <dt-bindings/arm/qcom,ids.h>
 
 / {
-	model = "Xiaomi Redmi 7A (pine)";
-	compatible = "qcom,sdm439";
+	compatible = "qcom,sdm439", "xiaomi,pine", "lk2nd,device";
+	model = "Xiaomi Redmi 7A";
+	qcom,msm-id = <353 0x00>;
+	qcom,board-id = <0xb 2>;
 
 	chassis-type = "handset";
-
-    android,fstab_suffix = "mi439";
     qcom,pmic-id = <0x10016 0x25 0x00 0x00>;
-	qcom,msm-id = <353 0x0>;
-    qcom,board-id = <0xb 2>;
     qcom.pmic-name = "PMI632";
 
-	chosen {
-		#address-cells = <0x02>;
-		#size-cells = <0x02>;
+    chosen {
+		#address-cells = <2>;
+		#size-cells = <2>;
 		ranges;
-
-		stdout-path = "/chosen/framebuffer@90000000";
 
 		framebuffer0: framebuffer@90000000 {
 			compatible = "simple-framebuffer";
@@ -35,20 +30,111 @@
 			stride = <(720 * 3)>;
 			format = "r8g8b8";
 		};
-
-		ramoops@0 {
-			compatible = "ramoops";
-			reg = <0x00 0x9ff00000 0x00 0x100000>;
-			record-size = <0x80000>;
-			console-size = <0x80000>;
-			pmsg-size = <0x8000>;
-		};
 	};
 
 	reserved-memory {
-		framebuffer_mem: memory@90000000 {
-			reg = <0x0 0x90000000 0x0 (720 * 1440 * 3)>;
+		#address-cells = <0x02>;
+		#size-cells = <0x02>;
+		ranges;
+		phandle = <0x2dd>;
+
+		mem_dump_region {
+			reusable;
+			compatible = "shared-dma-pool";
+			size = <0x400000>;
+			phandle = <0xac>;
+		};
+
+		modem_region@0 {
 			no-map;
+			compatible = "removed-dma-pool";
+			phandle = <0xf9>;
+			reg = <0x00 0x86800000 0x00 0x5500000>;
+		};
+
+		venus_region@0 {
+			reusable;
+			compatible = "shared-dma-pool";
+			alignment = <0x00 0x400000>;
+			alloc-ranges = <0x00 0x80000000 0x00 0x10000000>;
+			size = <0x00 0x800000>;
+			phandle = <0x101>;
+		};
+
+		adsp_region@0 {
+			reusable;
+			compatible = "shared-dma-pool";
+			alignment = <0x00 0x400000>;
+			size = <0x00 0x400000>;
+			phandle = <0xf3>;
+		};
+
+		gpu_region@0 {
+			reusable;
+			compatible = "shared-dma-pool";
+			alignment = <0x00 0x400000>;
+			alloc-ranges = <0x00 0x80000000 0x00 0x10000000>;
+			size = <0x00 0x800000>;
+			phandle = <0x1a9>;
+		};
+
+		secure_region@0 {
+			reusable;
+			compatible = "shared-dma-pool";
+			alignment = <0x00 0x400000>;
+			size = <0x00 0x7000000>;
+			phandle = <0x21>;
+		};
+
+		splash_region@83000000 {
+			phandle = <0x75>;
+			reg = <0x00 0x90000000 0x00 0x1400000>;
+		};
+
+		qseecom_region@0 {
+			reusable;
+			compatible = "shared-dma-pool";
+			alignment = <0x00 0x400000>;
+			size = <0x00 0x1000000>;
+			phandle = <0x22>;
+		};
+
+		wcnss_fw_region@0 {
+			no-map;
+			compatible = "removed-dma-pool";
+			phandle = <0x100>;
+			reg = <0x00 0x8d500000 0x00 0x700000>;
+		};
+
+		pstore_reserve_mem_region@0 {
+			pmsg-size = <0x8000>;
+			compatible = "ramoops";
+			console-size = <0x80000>;
+			phandle = <0x2df>;
+			reg = <0x00 0x9ff00000 0x00 0x100000>;
+		};
+
+		qseecom_ta_region {
+			reusable;
+			compatible = "shared-dma-pool";
+			alignment = <0x00 0x400000>;
+			alloc-ranges = <0x00 0x00 0x00 0xffffffff>;
+			size = <0x00 0x1000000>;
+			phandle = <0x23>;
+		};
+
+		other_ext_region@0 {
+			no-map;
+			compatible = "removed-dma-pool";
+			phandle = <0x2de>;
+			reg = <0x00 0x84a00000 0x00 0x1d00000>;
+		};
+
+		adsp_fw_region@0 {
+			no-map;
+			compatible = "removed-dma-pool";
+			phandle = <0xfd>;
+			reg = <0x00 0x8bd00000 0x00 0x1800000>;
 		};
 	};
 };

@@ -186,7 +186,7 @@
 		compatible = "arm,psci-1.0";
 		method = "smc";
 	};
-
+/*
 	reserved-memory {
 		#address-cells = <2>;
 		#size-cells = <2>;
@@ -232,9 +232,8 @@
 			no-map;
 		};
 
-		/* venus, secure, qseecom, adsp mem */
 	};
-
+*/
 	soc: soc@0 {
 		compatible = "simple-bus";
 		#address-cells = <1>;
